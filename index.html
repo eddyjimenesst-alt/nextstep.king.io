@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>NextStep</title>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div id="auth">
+  <div class="auth-box">
+    <h2>NextStep</h2>
+
+<input id="username" placeholder="Usuario">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Contraseña">
+
+<label style="display:block; margin-top:10px; font-size:14px;">
+  Foto de perfil
+</label>
+<input id="registerPhoto" type="file" accept="image/*" onchange="previewRegisterPhoto(event)">
+
+<img id="registerPhotoPreview" 
+     src="https://i.pravatar.cc/120" 
+     style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin-top:10px;">
+
+    <label style="display:block; margin-top:10px; font-size:14px;">
+      <input type="checkbox" id="remember"> Recordarme
+    </label>
+
+    <button onclick="register()">Registrarse</button>
+    <button onclick="login()">Iniciar sesión</button>
+    <button onclick="loginAsGuest()" class="guest-btn">Entrar como invitado</button>
+  </div>
+</div>
+
+<div id="app">
+
+  <div class="sidebar">
+    <div class="logo">N <span>NextStep</span></div>
+    <small>Tu siguiente paso empieza aquí</small>
+
+    <ul>
+      <li class="active" onclick="showHome()">🏠 Inicio</li>
+      <li onclick="showOpportunities()">🔎 Explorar oportunidades</li>
+      <li onclick="showBecas()">🎓 Becas disponibles</li>
+      <li onclick="showGuardados()">❤️ Guardados</li>
+      <li onclick="showInstituciones()">🏢 Empresas / Instituciones</li>
+      <li onclick="showConsejos()">💡 Consejos y recursos</li>
+      <li onclick="logout()">🚪 Cerrar sesión</li>
+    </ul>
+
+    <div class="publish-box">
+      <p>¿Tienes una oportunidad para compartir?</p>
+      <button onclick="showPublishForm()">Publicar ahora →</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="topbar">
+      <input placeholder="Busca oportunidades, empresas o palabras clave...">
+
+      <div class="profile" onclick="showProfile()">
+        <span>🔔</span>
+        <img id="profilePhoto" src="https://i.pravatar.cc/40">
+        <div>
+          <strong id="userName"></strong>
+          <small id="userRole">Estudiante</small>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero" id="heroSection" style="grid-template-columns:1.2fr 0.8fr;">
+      <div class="hero-text">
+        <small>BIENVENIDO A NEXTSTEP</small>
+        <h1>Conectamos talento <br>con <span>oportunidades</span></h1>
+        <p>Encuentra trabajos, becas y programas que impulsen tu futuro.</p>
+
+        <div class="hero-actions">
+          <div class="action-card purple" onclick="showOpportunities()">
+            <h3>🎓 Soy estudiante</h3>
+            <p>Buscar oportunidades, becas y pasantías.</p>
+          </div>
+
+          <div class="action-card" onclick="showPublishForm()">
+            <h3>🏢 Soy empresa</h3>
+            <p>Publica vacantes y conecta con talento joven.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-img">
+  <video autoplay muted loop playsinline>
+    <source src="videos/nextstep-video.mp4" type="video/mp4">
+  </video>
+</div>
+
+</section>
+
+<section class="content" id="contentSection">
+  <div>
+    <div class="section-head">
+      <h2 id="sectionTitle">Oportunidades destacadas</h2>
+      <button onclick="showOpportunities()">Ver todas →</button>
+    </div>
+
+    <div id="list"></div>
+  </div>
+
+  <aside>
+    <div class="info-card">
+      <h3>¿Cómo funciona NextStep?</h3>
+      <p><b>1</b> Explora oportunidades</p>
+      <p><b>2</b> Postúlate fácilmente</p>
+      <p><b>3</b> Conecta y crece</p>
+    </div>
+
+    <div class="rocket">
+      <h3>Impulsa tu futuro 🚀</h3>
+      <p>Accede a recursos y oportunidades para crecer profesionalmente.</p>
+      <button onclick="goToResources()">Ir a recursos →</button>
+    </div>
+  </aside>
+</section>
+
+    <section id="profileSection" class="profile-section">
+  <h2>Mi perfil</h2>
+  <p>Actualiza tu información personal y tu foto de perfil.</p>
+
+  <div class="profile-photo-box">
+    <img id="profilePreview" src="img/default-user.png">
+    <input type="file" id="photoInput" accept="image/*" onchange="changePhoto(event)">
+  </div>
+
+  <label>Nombre</label>
+  <input id="editName" placeholder="Tu nombre">
+
+  <label>Correo</label>
+  <input id="editEmail" placeholder="Tu correo">
+
+  <label>Tipo de usuario</label>
+  <select id="editRole">
+    <option value="Estudiante">Estudiante</option>
+    <option value="Empresa">Empresa</option>
+    <option value="Institución">Institución</option>
+    <option value="Invitado">Invitado</option>
+  </select>
+
+  <div class="profile-actions">
+    <button class="save-btn" onclick="saveProfile()">Guardar cambios</button>
+    <button class="cancel-btn" onclick="hideProfile()">Volver</button>
+  </div>
+</section>
+
+    <section id="publishSection" class="publish-section">
+      <h2>Publicar vacante</h2>
+      <p>Completa la información de la oportunidad que deseas publicar.</p>
+
+      <label>Título de la vacante</label>
+      <input id="publishTitle" placeholder="Ej: Desarrollador Junior">
+
+      <label>Empresa o institución</label>
+      <input id="publishCompany" placeholder="Ej: Empresa Dominicana SRL">
+
+      <label>Tipo de oportunidad</label>
+      <select id="publishType">
+        <option value="Trabajo">Trabajo</option>
+        <option value="Pasantía">Pasantía</option>
+        <option value="Beca">Beca</option>
+        <option value="Proyecto">Proyecto</option>
+      </select>
+
+      <label>Ubicación</label>
+      <input id="publishLocation" placeholder="Ej: Santo Domingo, RD">
+
+      <label>Descripción</label>
+      <textarea id="publishDescription" placeholder="Describe los requisitos, funciones y beneficios..."></textarea>
+
+      <label>Enlace para aplicar</label>
+      <input id="publishLink" placeholder="https://...">
+
+      <div class="publish-actions">
+        <button class="publish-btn" onclick="savePublishedVacancy()">Publicar vacante</button>
+        <button class="cancel-btn" onclick="hidePublishForm()">Volver</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>
